@@ -23,12 +23,7 @@ const Navbar = () => {
     }
   };
 
-  // if (!currentUser) return null;
-  // if (!currentUser) {
-  //   return (
-  //     <div className="p-4 text-gray-500 dark:text-white">Loading user...</div>
-  //   );
-  // }
+  if (!currentUser) return null;
   const currentUserDetails = currentUser?.userDetails;
 
   return (
