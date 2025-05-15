@@ -44,6 +44,11 @@ const HomePage = () => {
   const { data: projects, isLoading: isProjectsLoading } =
     useGetProjectsQuery();
 
+  console.log("Tasks:", tasks);
+  console.log("Projects:", projects);
+  console.log("Loading states:", { tasksLoading, isProjectsLoading });
+  console.log("Error state:", tasksError);
+
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   if (tasksLoading || isProjectsLoading) return <div>Loading..</div>;

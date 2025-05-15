@@ -119,8 +119,13 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
-    getTasks: build.query<Task[], { projectId: number }>({
-      query: ({ projectId }) => `tasks?projectId=${projectId}`,
+    getTasks: build.query<Task[], { projectId?: number; priority?: string }>({
+      query: ({ projectId, priority }) => {
+        let queryString = [];
+        if (projectId) queryString.push(`projectId=${projectId}`);
+        if (priority) queryString.push(`priority=${priority}`);
+        return `tasks${queryString.length ? "?" + queryString.join("&") : ""}`;
+      },
       providesTags: (result) =>
         result
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))

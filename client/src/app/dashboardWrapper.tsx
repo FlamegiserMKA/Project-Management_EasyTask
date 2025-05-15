@@ -36,9 +36,8 @@ export const DashboardLayout = ({
           isSidebarCollapsed ? "" : "md:pl-64"
         }`}
       >
-        <div></div>
         <Navbar />
-        {children}
+        <div className="flex-1">{children}</div>
       </main>
     </div>
   );

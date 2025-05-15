@@ -9,7 +9,7 @@ import {
   Priority,
   Task,
   useGetAuthUserQuery,
-  useGetTasksByUserQuery,
+  useGetTasksQuery,
 } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
@@ -83,15 +83,9 @@ const ReusablePriorityPage = ({ priority }: Props) => {
     data: tasks,
     isLoading,
     isError: isTasksError,
-  } = useGetTasksByUserQuery(userId || 0, {
-    skip: userId === null,
-  });
+  } = useGetTasksQuery({ projectId: 1, priority });
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-
-  const filteredTasks = tasks?.filter(
-    (task: Task) => task.priority === priority
-  );
 
   if (isTasksError || !tasks) return <div>Error fetching tasks</div>;
 
@@ -134,16 +128,14 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         <div>Loading tasks...</div>
       ) : view === "list" ? (
         <div className="grid grid-cols-1 gap-4">
-          {filteredTasks?.map((task: Task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
+          {tasks?.map((task: Task) => <TaskCard key={task.id} task={task} />)}
         </div>
       ) : (
         view === "table" &&
-        filteredTasks && (
+        tasks && (
           <div className="z-0 w-full">
             <DataGrid
-              rows={filteredTasks}
+              rows={tasks}
               columns={columns}
               checkboxSelection
               getRowId={(row) => row.id}
